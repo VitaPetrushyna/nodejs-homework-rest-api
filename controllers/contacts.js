@@ -1,16 +1,15 @@
-const Contacts = require("../models/contacts");
+const Contact = require("../models/contact");
 
-// const { contactSchema } = require("../schemas/contacts");
 const { HttpError, ctrlWrapper } = require("../helpers");
 
 const getContacts = async (req, res) => {
-  const contacts = await Contacts.listContacts();
+  const contacts = await Contact.find({});
   res.json(contacts);
 };
 
 const getContactById = async (req, res) => {
   const contactId = req.params.contactId;
-  const contactById = await Contacts.getContactById(contactId);
+  const contactById = await Contact.findById(contactId);
 
   if (contactById) {
     res.json(contactById);
@@ -20,13 +19,8 @@ const getContactById = async (req, res) => {
 };
 
 const createContact = async (req, res) => {
-  // const validation = contactSchema.validate(req.body);
   const body = req.body;
-  const newContact = await Contacts.addContact(body);
-
-  // if (validation.error) {
-  //   throw HttpError(400, "Missing required name field");
-  // }
+  const newContact = await Contact.create(body);
 
   res.json({
     status: "success",
@@ -40,7 +34,7 @@ const createContact = async (req, res) => {
 
 const deleteContact = async (req, res) => {
   const contactId = req.params.contactId;
-  const removeContactById = await Contacts.removeContact(contactId);
+  const removeContactById = await Contact.findByIdAndRemove(contactId);
 
   if (removeContactById) {
     res.json({
@@ -54,15 +48,11 @@ const deleteContact = async (req, res) => {
 };
 
 const updateContact = async (req, res) => {
-  // const validation = contactSchema.validate(req.body);
-
-  // if (validation.error) {
-  //   return res.status(400).json({ status: validation.error.details });
-  // }
-
   const contactId = req.params.contactId;
   const body = req.body;
-  const contactUpdate = await Contacts.updateContact(contactId, body);
+  const contactUpdate = await Contact.findByIdAndUpdate(contactId, body, {
+    new: true,
+  });
 
   if (contactUpdate) {
     res.json({
@@ -75,10 +65,34 @@ const updateContact = async (req, res) => {
   }
 };
 
+const updateFavorite = async (req, res) => {
+  const contactId = req.params.contactId;
+  const body = req.body;
+
+  if (body === null) {
+    throw HttpError(400, "Missing field favorite");
+  }
+
+  const updateStatusContact = await Contact.findByIdAndUpdate(contactId, body, {
+    new: true,
+  });
+
+  if (updateStatusContact) {
+    res.json({
+      status: "success",
+      code: 200,
+      data: updateStatusContact,
+    });
+  } else {
+    throw HttpError(404);
+  }
+};
+
 module.exports = {
   getContacts: ctrlWrapper(getContacts),
   getContactById: ctrlWrapper(getContactById),
   createContact: ctrlWrapper(createContact),
   deleteContact: ctrlWrapper(deleteContact),
   updateContact: ctrlWrapper(updateContact),
+  updateFavorite: ctrlWrapper(updateFavorite),
 };
