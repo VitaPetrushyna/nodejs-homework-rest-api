@@ -15,7 +15,3 @@ module.exports = {
   updateByIdContact: ctrlWrapper(updateByIdContact),
   updateByIdFavorite: ctrlWrapper(updateByIdFavorite),
 };
-
-// module.exports = {
-//   addContact,
-// };
