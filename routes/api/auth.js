@@ -22,19 +22,13 @@ router.get("/current", authenticate, ctrl.getCurrent);
 
 router.post("/logout", authenticate, ctrl.logout);
 
+router.patch(
+  "/",
+  authenticate,
+  validateBody(updateBySubscriptionSchema),
+  ctrl.updateBySubscription
+);
 // router.get("/verify/:verificationToken", ctrl.verify);
 // router.get("/verify", validateBody(verifyEmailSchema), ctrl.resendVerify);
-// router.patch(
-//   "/",
-//   authenticate,
-//   validateBody(updateBySubscriptionSchema),
-//   ctrl.updateBySubscription
-// );
-// router.patch(
-//   "/avatars",
-//   authenticate,
-//   upload.single("avatars"),
-//   ctrl.updateByAvatar
-// );
 
 module.exports = router;

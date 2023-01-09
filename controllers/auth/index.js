@@ -4,20 +4,12 @@ const register = require("./register");
 const login = require("./login");
 const getCurrent = require("./getCurrent");
 const logout = require("./logout");
-
-// const updateBySubscription = require("./updateBySubscription");
-// const verify = require("./verify");
-// const resendVerify = require("./resendVerify");
-// const updateByAvatar = require("./updateByAvatar");
+const updateBySubscription = require("./updateBySubscription");
 
 module.exports = {
   register: ctrlWrapper(register),
   login: ctrlWrapper(login),
   getCurrent: ctrlWrapper(getCurrent),
   logout: ctrlWrapper(logout),
-
-  //   updateBySubscription: ctrlWrapper(updateBySubscription),
-  //   verify: ctrlWrapper(verify),
-  //   resendVerify: ctrlWrapper(resendVerify),
-  //   updateByAvatar: ctrlWrapper(updateByAvatar),
+  updateBySubscription: ctrlWrapper(updateBySubscription),
 };
