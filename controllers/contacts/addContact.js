@@ -4,7 +4,9 @@ const { HttpError } = require("../../helpers");
 
 const addContact = async (req, res) => {
   const body = req.body;
-  const newContact = await Contact.create(body);
+  const { _id: owner } = req.user;
+
+  const newContact = await Contact.create({ ...body, owner });
 
   res.json({
     status: "success",
