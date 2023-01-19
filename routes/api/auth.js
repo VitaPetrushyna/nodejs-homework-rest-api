@@ -3,7 +3,12 @@ const express = require("express");
 const ctrl = require("../../controllers/auth");
 const router = express.Router();
 
-const { validateBody, isValidId, authenticate } = require("../../middlewares");
+const {
+  validateBody,
+  isValidId,
+  authenticate,
+  upload,
+} = require("../../middlewares");
 
 const {
   registerSchema,
@@ -27,6 +32,13 @@ router.patch(
   authenticate,
   validateBody(updateBySubscriptionSchema),
   ctrl.updateBySubscription
+);
+
+router.patch(
+  "/avatars",
+  authenticate,
+  upload.single("avatars"),
+  ctrl.updateAvatar
 );
 // router.get("/verify/:verificationToken", ctrl.verify);
 // router.get("/verify", validateBody(verifyEmailSchema), ctrl.resendVerify);
