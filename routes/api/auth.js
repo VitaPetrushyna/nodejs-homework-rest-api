@@ -28,6 +28,13 @@ router.patch(
   validateBody(updateBySubscriptionSchema),
   ctrl.updateBySubscription
 );
+
+router.patch(
+  "/avatars",
+  authenticate,
+  // upload.single("avatars"),
+  ctrl.updateAvatar
+);
 // router.get("/verify/:verificationToken", ctrl.verify);
 // router.get("/verify", validateBody(verifyEmailSchema), ctrl.resendVerify);
 
